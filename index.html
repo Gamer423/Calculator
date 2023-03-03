@@ -103,7 +103,8 @@ function equals () {
     }
 
 clear();
-result = result.toFixed(4);
+
+result = +parseFloat((result).toFixed(6));
 previousOperandTextElement.innerText = result;
 currentOperandTextElement.innerText = result;
 }
