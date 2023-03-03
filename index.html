@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calculator-grid">
+        <div class="output">
+            <div data-previous-operand class="previous-operand"></div>
+            <div data-current-operand class="current-operand"></div>
+        </div>
+        <button data-all-clear class="span-two">AC</button>
+          <button data-delete>DEL</button>
+          <button onclick="divide()" data-operation>÷</button>
+          <button data-number>1</button>
+          <button data-number>2</button>
+          <button data-number>3</button>
+          <button onclick="multiply()" data-operation>*</button>
+          <button data-number>4</button>
+          <button data-number>5</button>
+          <button data-number>6</button>
+          <button onclick="add()"data-operation>+</button>
+          <button data-number>7</button>
+          <button data-number>8</button>
+          <button data-number>9</button>
+          <button onclick="substract()"data-operation>-</button>
+          <button data-number>.</button>
+          <button data-number>0</button>
+          <button data-equals class="span-two">=</button>
+    </div>
+
+
+    <script>
+
+
+// Choosing buttons from HTML
+const numberButtons = document.querySelectorAll('[data-number]')
+const operationButtons = document.querySelectorAll('[data-operation]')
+const equalsButton = document.querySelector('[data-equals]')
+const deleteButton = document.querySelector('[data-delete]')
+const allClearButton = document.querySelector('[data-all-clear]')
+let previousOperandTextElement = document.querySelector('[data-previous-operand]')
+let currentOperandTextElement = document.querySelector('[data-current-operand]')
+
+
+
+function operate () {
+    if (currentOperandTextElement.innerText != '' && previousOperandTextElement.innerText != '') {
+            equals();
+        }
+
+        previousOperandTextElement.innerText = currentOperandTextElement.innerText;
+        currentOperandTextElement.innerText = '';
+    }
+
+function divide() {
+    operate();
+    previousOperandTextElement.innerText += ' /'
+        }
+
+function multiply() {
+    operate();
+    previousOperandTextElement.innerText += ' *'
+        }
+
+function add() {
+    operate();
+    previousOperandTextElement.innerText += ' +'
+        }
+    
+function substract() {
+    operate();
+    previousOperandTextElement.innerText += ' -'
+        }
+
+
+function rmv () {
+previousOperandTextElement.innerText = previousOperandTextElement.innerText.substring(0, previousOperandTextElement.innerText.length-2);
+}
+
+
+// Display the result on the display screen
+equalsButton.addEventListener('click', equals);
+function equals () {
+    let result = '';
+
+    if (previousOperandTextElement.innerText.includes("/") === true) {
+        rmv();
+        result = Number(previousOperandTextElement.innerText)/Number(currentOperandTextElement.innerText);
+    } else if (previousOperandTextElement.innerText.includes("*") === true) {
+        rmv();
+        result = Number(previousOperandTextElement.innerText)*Number(currentOperandTextElement.innerText);
+    } else if (previousOperandTextElement.innerText.includes("+") === true) {
+        rmv();
+        result = Number(previousOperandTextElement.innerText)+Number(currentOperandTextElement.innerText);
+    } else if (previousOperandTextElement.innerText.includes("-") === true) {
+        rmv();
+        result = Number(previousOperandTextElement.innerText)-Number(currentOperandTextElement.innerText);
+    }
+
+clear();
+result = result.toFixed(4);
+previousOperandTextElement.innerText = result;
+currentOperandTextElement.innerText = result;
+}
+
+
+
+
+
+// Remove one number from input
+deleteButton.addEventListener('click', remove);
+function remove() {
+    currentOperandTextElement.innerText = currentOperandTextElement.innerText.substring(0, currentOperandTextElement.innerText.length-1);
+}
+
+
+// Deletes all inputs
+allClearButton.addEventListener('click', clear)
+function clear () {
+        currentOperandTextElement.innerText = '';
+        previousOperandTextElement.innerText = '';
+    }
+
+
+// Puts numbers from buttons to the input screen
+numberButtons.forEach(button => {
+    button.addEventListener('click', kys);
+    function kys () {
+        currentOperandTextElement.innerText += button.innerText;
+    }
+});
+    </script>
+</body>
+</html>
